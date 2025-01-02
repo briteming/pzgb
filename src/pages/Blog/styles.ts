@@ -1,82 +1,120 @@
 import styled from "styled-components";
 
-export const ProfileContainer = styled.section`
+export const ContentContainer = styled.main`
   width: 54rem;
-  height: 13.25rem;
 
-  padding: 2rem 2.5rem;
   margin: 0 auto;
-  margin-top: -88px;
 
-  display: flex;
+  section {
+    margin-top: 4.75rem;
+    margin-bottom: 3rem;
+
+    p {
+      margin-bottom: 0.75rem;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      color: ${({ theme }) => theme.colors["base-subtitle"]};
+
+      ${({ theme }) => theme.fonts.titleS};
+    }
+
+    span {
+      color: ${({ theme }) => theme.colors["base-span"]};
+      ${({ theme }) => theme.fonts.textS};
+    }
+  }
+
+  input {
+    width: 100%;
+
+    padding: 0.75rem 1rem;
+
+    color: ${({ theme }) => theme.colors["base-text"]};
+    background-color: ${({ theme }) => theme.colors["base-input"]};
+
+    border: 1px solid ${({ theme }) => theme.colors["base-border"]};
+    border-radius: 6px;
+    ${({ theme }) => theme.fonts.textM};
+  }
+  ::placeholder {
+    color: ${({ theme }) => theme.colors["base-border"]};
+  }
+  :focus {
+    outline: 0;
+    border: 1px solid ${({ theme }) => theme.colors.blue};
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px; /* Largura para barras verticais */
+  }
+
+  /* Cor e forma do trilho da barra */
+  ::-webkit-scrollbar-track {
+    background: ${({ theme }) => theme.colors["base-background"]};
+    border-radius: 10px;
+  }
+  /* Cor e forma do "polegar" da barra */
+  ::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors["base-border"]};
+    border-radius: 10px;
+  }
+`;
+
+export const PostList = styled.div`
+  height: 52.75rem;
+  width: 56rem;
+
+  padding-bottom: 5rem;
+  margin-bottom: 14.65rem;
+  overflow-y: scroll;
+
+  display: grid;
+  grid-template-columns: repeat(2, 26rem);
+  grid-template-rows: 16.25rem;
   gap: 2rem;
+`;
+
+export const Post = styled.div`
+  padding: 2rem;
 
   border-radius: 10px;
 
-  background-color: ${({ theme }) => theme.colors["base-profile"]};
-`;
+  background-color: ${({ theme }) => theme.colors["base-post"]};
 
-export const ProfileImage = styled.img`
-  width: 9.25rem;
-  height: 9.25rem;
+  div {
+    margin-bottom: 1.25rem;
 
-  border-radius: 8px;
+    display: flex;
 
-  object-fit: cover;
-`;
+    p {
+      width: 17.68rem;
 
-export const ProfileContent = styled.div`
-  flex: 1;
+      color: ${({ theme }) => theme.colors["base-title"]};
+      ${({ theme }) => theme.fonts.titleM};
+    }
+
+    time {
+      margin-top: 0.25rem;
+
+      flex: 1;
+      text-align: end;
+
+      color: ${({ theme }) => theme.colors["base-span"]};
+      ${({ theme }) => theme.fonts.textS};
+    }
+  }
 
   > p {
-    margin-top: 0.5rem;
-    margin-bottom: 1.5rem;
     color: ${({ theme }) => theme.colors["base-text"]};
 
     ${({ theme }) => theme.fonts.textM};
-  }
-`;
 
-export const ProfileHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
-
-  p {
-    color: ${({ theme }) => theme.colors["base-title"]};
-
-    ${({ theme }) => theme.fonts.titleL};
-  }
-  a {
-    color: ${({ theme }) => theme.colors["blue"]};
-    ${({ theme }) => theme.fonts.link};
-
-    text-decoration: none;
-    cursor: pointer;
-
-    img {
-      width: 0.75rem;
-      height: 0.75rem;
-
-      margin-left: 0.75rem;
-    }
-  }
-`;
-
-export const ProfileFooter = styled.footer`
-  display: flex;
-  gap: 1.25rem;
-
-  div {
-    color: ${({ theme }) => theme.colors["base-subtitle"]};
-    ${({ theme }) => theme.fonts.textM};
-  }
-
-  svg {
-    width: 1.125rem;
-    height: 1.125rem;
-
-    margin-right: 0.5rem;
-
-    color: ${({ theme }) => theme.colors["base-label"]};
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
   }
 `;
