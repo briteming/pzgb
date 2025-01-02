@@ -10,6 +10,7 @@ import NewTabLinkSVG from "../../../../assets/new-tab-link.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { NavLink } from "react-router-dom";
 
 export function Profile() {
   return (
@@ -21,10 +22,10 @@ export function Profile() {
       <ProfileContent>
         <ProfileHeader>
           <p>Cameron Williamson</p>
-          <a href="">
+          <NavLink to="/post">
             GITHUB
             <img src={NewTabLinkSVG} alt="" />
-          </a>
+          </NavLink>
         </ProfileHeader>
         <p>
           Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu

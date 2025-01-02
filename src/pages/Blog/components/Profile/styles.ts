@@ -46,6 +46,8 @@ export const ProfileHeader = styled.header`
     ${({ theme }) => theme.fonts.titleL};
   }
   a {
+    height: fit-content;
+
     color: ${({ theme }) => theme.colors["blue"]};
     ${({ theme }) => theme.fonts.link};
 

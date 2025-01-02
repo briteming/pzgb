@@ -68,7 +68,6 @@ export const PostList = styled.div`
   width: 56rem;
 
   padding-bottom: 5rem;
-  margin-bottom: 14.65rem;
   overflow-y: scroll;
 
   display: grid;
