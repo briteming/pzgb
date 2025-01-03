@@ -73,8 +73,25 @@ export const SummaryFooter = styled.footer`
 `;
 
 export const Content = styled.p`
-  padding: 2.5rem 2rem;
+  padding: 2rem 2.5rem;
 
   color: ${({ theme }) => theme.colors["base-text"]};
-  ${({ theme }) => theme.fonts.textM};
+
+  p {
+    text-align: justify;
+    ${({ theme }) => theme.fonts.textM};
+  }
+  p + p {
+    margin-top: 1.5rem;
+  }
+  a {
+    color: ${({ theme }) => theme.colors["blue"]};
+  }
+  pre {
+    background-color: #151b23;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    color: #f0f6fc;
+    margin-top: 1rem;
+  }
 `;
