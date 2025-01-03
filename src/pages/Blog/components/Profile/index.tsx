@@ -8,43 +8,93 @@ import {
 import NewTabLinkSVG from "../../../../assets/new-tab-link.svg";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBuilding, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBuilding,
+  faUserGroup,
+  faFolderTree,
+} from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { NavLink } from "react-router-dom";
+import { Octokit } from "octokit";
+import { useEffect, useState } from "react";
+
+interface UserInfos {
+  avatar_url: string | null;
+  login: string | null;
+  name: string | null;
+  bio: string | null;
+  followers: number | null;
+  company: string | null;
+  public_repos: number | null;
+  html_url: string | null;
+}
 
 export function Profile() {
+  const [userInfos, setUserInfos] = useState({} as UserInfos);
+  const accessToken = import.meta.env.VITE_ACCESS_TOKEN;
+
+  const octokit = new Octokit({
+    auth: accessToken,
+  });
+
+  async function getProfileInfos() {
+    const { data } = await octokit.request("GET /user", {
+      headers: {
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+    });
+
+    const userInfos = {
+      avatar_url: data.avatar_url,
+      login: data.login,
+      name: data.name,
+      bio: data.bio,
+      followers: data.followers,
+      company: data.company,
+      public_repos: data.public_repos,
+      html_url: data.html_url,
+    } as UserInfos;
+    setUserInfos(userInfos);
+  }
+
+  useEffect(() => {
+    getProfileInfos();
+    console.log(userInfos);
+  }, []);
+
   return (
     <ProfileContainer>
       <ProfileImage
-        src="https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?q=50&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        src={userInfos.avatar_url ? userInfos.avatar_url : ""}
         alt=""
       />
       <ProfileContent>
         <ProfileHeader>
-          <p>Cameron Williamson</p>
-          <NavLink to="/post">
+          <p>{userInfos.name}</p>
+          <a href={userInfos.html_url ? userInfos.html_url : ""}>
             GITHUB
             <img src={NewTabLinkSVG} alt="" />
-          </NavLink>
+          </a>
         </ProfileHeader>
-        <p>
-          Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu
-          viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat
-          pulvinar vel mass.
-        </p>
+        <p>{userInfos.bio}</p>
 
         <ProfileFooter>
           <div>
             <FontAwesomeIcon icon={faGithub} />
-            cameronwll
+            {userInfos.login}
           </div>
           <div>
-            <FontAwesomeIcon icon={faBuilding} />
-            Rocketseat
+            <FontAwesomeIcon icon={faFolderTree} />
+            {userInfos.public_repos}
           </div>
+          {userInfos.company ? (
+            <div>
+              <FontAwesomeIcon icon={faBuilding} />
+              {userInfos.company}
+            </div>
+          ) : null}
           <div>
             <FontAwesomeIcon icon={faUserGroup} />
-            32 seguidores
+            {userInfos.followers} seguidores
           </div>
         </ProfileFooter>
       </ProfileContent>

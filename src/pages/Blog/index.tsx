@@ -5,7 +5,6 @@ import { format, formatDistanceToNow } from "date-fns";
 import { parse } from "date-fns/parse";
 
 import { ptBR } from "date-fns/locale/pt-BR";
-
 interface Post {
   title: string;
   createdAt: string;
@@ -39,7 +38,6 @@ for (let i = 0; i <= 20; i++) {
   postPreList.push(post);
 }
 
-console.log(postPreList);
 export function Blog() {
   const [postList] = useState<Post[]>(postPreList);
 
