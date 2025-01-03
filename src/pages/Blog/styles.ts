@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 export const ContentContainer = styled.main`
@@ -76,13 +77,16 @@ export const PostList = styled.div`
   gap: 2rem;
 `;
 
-export const Post = styled.div`
+export const Post = styled(NavLink)`
   padding: 2rem;
 
   border-radius: 10px;
 
   background-color: ${({ theme }) => theme.colors["base-post"]};
 
+  cursor: pointer;
+
+  text-decoration: none;
   div {
     margin-bottom: 1.25rem;
 

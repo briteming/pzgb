@@ -1,45 +1,14 @@
-import { useState } from "react";
 import { Profile } from "./components/Profile";
 import { ContentContainer, PostList, Post } from "./styles";
-import { format, formatDistanceToNow } from "date-fns";
-import { parse } from "date-fns/parse";
 
-import { ptBR } from "date-fns/locale/pt-BR";
-interface Post {
-  title: string;
-  createdAt: string;
-  content: string;
-}
-const publishedDateFormatted = format(
-  parse("02/12/2024 12:30", "dd/MM/yyyy HH:mm", new Date()),
-  "d 'de' LLLL 'às' HH:mm'h'",
-  {
-    locale: ptBR,
-  }
-);
-
-const publishedDateRelativeToNow = formatDistanceToNow(
-  parse("02/12/2024 12:30", "dd/MM/yyyy HH:mm", new Date()),
-
-  {
-    locale: ptBR,
-    addSuffix: true,
-  }
-);
-const post = {
-  title: "JavaScript data types and data structures",
-  content:
-    "Programming languages all have built-in data structures, but these often differ from one language to another. II- Programming languages all have built-in data structures, but these often differ from one language to another.",
-  createdAt: publishedDateRelativeToNow,
-} as Post;
-
-const postPreList: Post[] = [];
-for (let i = 0; i <= 20; i++) {
-  postPreList.push(post);
-}
+import { useRepository } from "../../hooks/useRepository";
+import {
+  formatDateToString,
+  getDateRelativeFromNow,
+} from "../../utils/DateFormatter";
 
 export function Blog() {
-  const [postList] = useState<Post[]>(postPreList);
+  const { issueList } = useRepository();
 
   return (
     <>
@@ -55,11 +24,16 @@ export function Blog() {
         </section>
 
         <PostList>
-          {postList.map(({ content, createdAt, title }) => (
-            <Post>
+          {issueList.map(({ content, createdAt, title, id }) => (
+            <Post key={id} to={`/post/${id}`}>
               <div>
                 <p>{title}</p>
-                <time dateTime={publishedDateFormatted}>{createdAt}</time>
+                <time
+                  title={formatDateToString(createdAt)}
+                  dateTime={createdAt}
+                >
+                  {getDateRelativeFromNow(createdAt)}
+                </time>
               </div>
               <p>{content}</p>
             </Post>
