@@ -30,7 +30,10 @@ interface UserInfos {
 
 export function Profile() {
   const [userInfos, setUserInfos] = useState({} as UserInfos);
-  const accessToken = import.meta.env.VITE_ACCESS_TOKEN;
+  const [, setRepositoryInfos] = useState({});
+  const [, setRepositoryIssues] = useState({});
+
+  const accessToken = import.meta.env.VITE_GITHUB_TOKEN;
 
   const octokit = new Octokit({
     auth: accessToken,
@@ -53,14 +56,55 @@ export function Profile() {
       public_repos: data.public_repos,
       html_url: data.html_url,
     } as UserInfos;
+
     setUserInfos(userInfos);
+    return userInfos;
+  }
+
+  async function getRepositoriesInfos() {
+    const owner = import.meta.env.VITE_GITHUB_OWNER;
+    const repo = import.meta.env.VITE_GITHUB_REPO;
+
+    const { data } = await octokit.request("GET /repos/{owner}/{repo}", {
+      owner,
+      repo,
+      headers: {
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+    });
+
+    setRepositoryInfos(data);
+    return data;
+  }
+
+  async function getRepositoryIssues() {
+    const owner = import.meta.env.VITE_GITHUB_OWNER;
+    const repo = import.meta.env.VITE_GITHUB_REPO;
+
+    const { data } = await octokit.request("GET /repos/{owner}/{repo}/issues", {
+      owner,
+      repo,
+      headers: {
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+    });
+
+    setRepositoryIssues(data);
+    return data;
   }
 
   useEffect(() => {
-    getProfileInfos();
-    console.log(userInfos);
-  }, []);
+    getProfileInfos().then((data) => {
+      console.log("Dados do usuário:", data);
+    });
 
+    getRepositoriesInfos().then((data) => {
+      console.log("Dados do repositório:", data);
+    });
+    getRepositoryIssues().then((data) => {
+      console.log("Issues do repo:", data);
+    });
+  }, []);
   return (
     <ProfileContainer>
       <ProfileImage
@@ -84,7 +128,7 @@ export function Profile() {
           </div>
           <div>
             <FontAwesomeIcon icon={faFolderTree} />
-            {userInfos.public_repos}
+            {userInfos.public_repos} repositórios
           </div>
           {userInfos.company ? (
             <div>

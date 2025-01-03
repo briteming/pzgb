@@ -1,5 +1,7 @@
 interface ImportMetaEnv {
-  readonly VITE_ACCESS_TOKEN: string;
+  readonly VITE_GITHUB_TOKEN: string;
+  readonly VITE_GITHUB_OWNER: string;
+  readonly VITE_GITHUB_REPO: string;
 }
 
 interface ImportMeta {
