@@ -6,9 +6,19 @@ import {
   formatDateToString,
   getDateRelativeFromNow,
 } from "../../utils/DateFormatter";
+import { useForm } from "react-hook-form";
+
+interface SearchPostInput {
+  term: string;
+}
 
 export function Blog() {
-  const { issueList } = useRepository();
+  const { issueList, getIssueByTerm } = useRepository();
+  const { register, handleSubmit } = useForm<SearchPostInput>();
+
+  function handleSearchByString({ term }: SearchPostInput) {
+    getIssueByTerm(term);
+  }
 
   return (
     <>
@@ -18,8 +28,12 @@ export function Blog() {
           <p>
             Publicações <span>6 publicações</span>
           </p>
-          <form action="">
-            <input type="text" placeholder="Buscar conteúdo" />
+          <form action="" onSubmit={handleSubmit(handleSearchByString)}>
+            <input
+              type="text"
+              placeholder="Buscar conteúdo"
+              {...register("term")}
+            />
           </form>
         </section>
 

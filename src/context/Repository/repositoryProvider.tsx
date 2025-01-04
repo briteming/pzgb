@@ -90,13 +90,47 @@ export function RepositoryProvider({ children }: RepositoryProviderProps) {
     const foundIssue = issueList.find((item) => item.id == id);
     if (foundIssue) return foundIssue;
   }
+
+  async function getIssueByTerm(term: string) {
+    const owner = import.meta.env.VITE_GITHUB_OWNER;
+    const repo = import.meta.env.VITE_GITHUB_REPO;
+
+    const response = await octokit.request("GET /search/issues", {
+      q: `repo:${owner}/${repo} ${term} type:issue`,
+
+      headers: {
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+    });
+
+    console.log(response.data);
+
+    const issues = response.data.items.map(
+      ({ id, comments, body, title, created_at, user, html_url }) =>
+        ({
+          id,
+          commentsAmount: comments,
+          content: body,
+          title,
+          createdAt: created_at,
+          owner: user?.login,
+          URL: html_url,
+        } as IIssue)
+    );
+
+    setIssueList(issues);
+    return issues;
+  }
+
   useEffect(() => {
     getUser();
     getIssueList();
   }, []);
 
   return (
-    <RepositoryContext.Provider value={{ user, issueList, getIssue }}>
+    <RepositoryContext.Provider
+      value={{ user, issueList, getIssue, getIssueByTerm }}
+    >
       {children}
     </RepositoryContext.Provider>
   );
