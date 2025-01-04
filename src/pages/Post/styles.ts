@@ -39,11 +39,11 @@ export const SummaryHeader = styled.header`
       height: 0.75rem;
     }
 
-    border-bottom: 1px solid transparent; /* Aumenta a escala em 10% */
+    border-bottom: 1px solid transparent;
     transition: border-color 0.4s ease, border-width 0.4s ease;
 
     &:hover {
-      border-bottom: 1px solid ${({ theme }) => theme.colors["blue"]}; /* Aumenta a escala em 10% */
+      border-bottom: 1px solid ${({ theme }) => theme.colors["blue"]};
     }
   }
 

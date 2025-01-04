@@ -88,10 +88,10 @@ export const Post = styled(NavLink)`
 
   text-decoration: none;
 
-  border: 1px solid transparent; /* Aumenta a escala em 10% */
+  border: 1px solid transparent;
   transition: border-color 0.4s ease, border-width 0.4s ease;
   &:hover {
-    border: 1px solid ${({ theme }) => theme.colors["base-label"]}; /* Aumenta a escala em 10% */
+    border: 1px solid ${({ theme }) => theme.colors["base-label"]};
   }
   div {
     margin-bottom: 1.25rem;
