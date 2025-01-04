@@ -10,10 +10,8 @@ export enum ActionTypes {
   GET_USER = "GET_USER",
   GET_ISSUE_LIST = "GET_ISSUE_LIST",
   GET_ISSUE_LIST_BY_TERM = "GET_ISSUE_LIST_BY_TERM",
-  GET_ISSUE_BY_ID = "GET_ISSUE_BY_ID",
 }
 export type ActionTypesProps =
-  | { type: ActionTypes.GET_ISSUE_BY_ID; payload: { issueId: string } }
   | {
       type: ActionTypes.GET_ISSUE_LIST_BY_TERM;
       payload: { data: ListIssuesByTermResponse };

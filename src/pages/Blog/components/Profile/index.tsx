@@ -14,10 +14,10 @@ import {
   faFolderTree,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { useRepository } from "../../../../hooks/useRepository";
+import { useGitHubInfos } from "../../../../hooks/useGitHubInfos";
 
 export function Profile() {
-  const { user } = useRepository();
+  const { user } = useGitHubInfos();
   const {
     avatarURL,
     bio,

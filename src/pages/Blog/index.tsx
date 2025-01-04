@@ -1,7 +1,7 @@
 import { Profile } from "./components/Profile";
 import { ContentContainer, PostList, Post } from "./styles";
 
-import { useGitHubInfos } from "../../hooks/useRepository";
+import { useGitHubInfos } from "../../hooks/useGitHubInfos";
 import {
   formatDateToString,
   getDateRelativeFromNow,

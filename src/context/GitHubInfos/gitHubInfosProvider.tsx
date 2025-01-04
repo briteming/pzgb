@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useEffect, useMemo, useReducer } from "react";
-import { IUser, IIssue, GitHubInfosContext } from "./gitHubInfosContext";
+import { GitHubInfosContext, IUser, IIssue } from "./gitHubInfosContext";
 import { ApiService } from "../../services/apiService";
 import { gitHubInfosReducer } from "../../reducer/GitHubInfos/reducer";
 import {
@@ -8,20 +8,25 @@ import {
   getUser,
 } from "../../reducer/GitHubInfos/actions";
 
-interface GitHubInfo {
-  user: IUser;
-  issueList: IIssue[];
-}
-
 interface GitHubInfosProps {
   children: ReactNode;
 }
 
 export function GitHubInfosProvider({ children }: GitHubInfosProps) {
-  const [githubUser, dispatch] = useReducer(gitHubInfosReducer, {
-    issueList: [] as IIssue[],
-    user: {} as IUser,
-  } as GitHubInfo);
+  const [gitHubInfosState, dispatch] = useReducer(
+    gitHubInfosReducer,
+    {
+      issueList: [] as IIssue[],
+      user: {} as IUser,
+    },
+    (initialState) => {
+      const storedJSON = localStorage.getItem("@time:githubinfos-state-1.0.0");
+      if (storedJSON) {
+        return JSON.parse(storedJSON);
+      }
+      return initialState;
+    }
+  );
 
   const apiService = useMemo(() => new ApiService(), []);
 
@@ -53,15 +58,19 @@ export function GitHubInfosProvider({ children }: GitHubInfosProps) {
   );
 
   useEffect(() => {
-    getAuthUser();
-    getIssueList();
+    Promise.all([getAuthUser(), getIssueList()]);
   }, [getAuthUser, getIssueList]);
+
+  useEffect(() => {
+    const stateJSON = JSON.stringify(gitHubInfosState);
+    localStorage.setItem("@time:githubinfos-state-1.0.0", stateJSON);
+  }, [gitHubInfosState]);
 
   return (
     <GitHubInfosContext.Provider
       value={{
-        user: githubUser.user,
-        issueList: githubUser.issueList,
+        user: gitHubInfosState.user,
+        issueList: gitHubInfosState.issueList,
         getIssueByTerm,
       }}
     >

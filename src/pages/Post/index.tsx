@@ -19,7 +19,7 @@ import {
   getDateRelativeFromNow,
 } from "../../utils/dateFormatter";
 import { IIssue } from "../../context/GitHubInfos/gitHubInfosContext";
-import { useGitHubInfos } from "../../hooks/useRepository";
+import { useGitHubInfos } from "../../hooks/useGitHubInfos";
 export function Post() {
   const { id } = useParams();
   const { issueList } = useGitHubInfos();

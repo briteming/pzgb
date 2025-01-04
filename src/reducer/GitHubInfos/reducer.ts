@@ -8,13 +8,13 @@ interface GitHubInfo {
 }
 
 export function gitHubInfosReducer(
-  { issueList, user }: GitHubInfo,
+  state: GitHubInfo,
   action: ActionTypesProps
 ) {
   switch (action.type) {
     case ActionTypes.GET_USER: {
       const formattedUser = userFormatter(action.payload.data);
-      return { issueList, user: formattedUser };
+      return { ...state, user: formattedUser };
     }
 
     case ActionTypes.GET_ISSUE_LIST: {
@@ -23,7 +23,7 @@ export function gitHubInfosReducer(
       );
 
       const nonRepeatIssueList = newIssueList.map((newIssue) => {
-        const alreadyPosted = issueList.find(
+        const alreadyPosted = state.issueList.find(
           (issue) => issue.id === newIssue.id
         );
 
@@ -31,7 +31,7 @@ export function gitHubInfosReducer(
         else return newIssue;
       });
 
-      return { user, issueList: nonRepeatIssueList };
+      return { ...state, issueList: nonRepeatIssueList };
     }
 
     case ActionTypes.GET_ISSUE_LIST_BY_TERM: {
@@ -39,10 +39,10 @@ export function gitHubInfosReducer(
         issueFormatter(item)
       );
 
-      return { user, issueList: issueListByTerm };
+      return { ...state, issueList: issueListByTerm };
     }
 
     default:
-      return { user, issueList };
+      return state;
   }
 }
