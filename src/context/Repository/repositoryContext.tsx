@@ -1,14 +1,14 @@
 import { createContext } from "react";
 
 export interface IUser {
-  avatarURL: string | null;
-  login: string | null;
-  name: string | null;
-  bio: string | null;
-  followers: number | null;
-  company: string | null;
-  publicRepos: number | null;
-  htmlURL: string | null;
+  avatarURL: string;
+  login: string;
+  name: string;
+  bio: string;
+  followers: number;
+  company: string;
+  publicRepos: number;
+  htmlURL: string;
 }
 
 export interface IIssue {
@@ -24,7 +24,7 @@ export interface IIssue {
 interface RepositoryContextType {
   user: IUser;
   issueList: IIssue[];
-  findIssueById: (id: string) => IIssue | null;
+  findIssueById: (id: string) => IIssue | undefined;
   getIssueByTerm: (term: string) => Promise<void>;
 }
 
