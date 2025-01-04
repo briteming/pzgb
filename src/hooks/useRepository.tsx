@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { RepositoryContext } from "../context/Repository/repositoryContext";
+import { GitHubInfosContext } from "../context/GitHubInfos/gitHubInfosContext";
 
-export function useRepository() {
-  return useContext(RepositoryContext);
+export function useGitHubInfos() {
+  return useContext(GitHubInfosContext);
 }

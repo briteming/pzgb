@@ -1,7 +1,7 @@
 import { Profile } from "./components/Profile";
 import { ContentContainer, PostList, Post } from "./styles";
 
-import { useRepository } from "../../hooks/useRepository";
+import { useGitHubInfos } from "../../hooks/useRepository";
 import {
   formatDateToString,
   getDateRelativeFromNow,
@@ -13,7 +13,7 @@ interface SearchPostInput {
 }
 
 export function Blog() {
-  const { issueList, getIssueByTerm } = useRepository();
+  const { issueList, getIssueByTerm } = useGitHubInfos();
   const { register, handleSubmit } = useForm<SearchPostInput>();
 
   function handleSearchByString({ term }: SearchPostInput) {

@@ -21,11 +21,10 @@ export interface IIssue {
   URL: string;
 }
 
-interface RepositoryContextType {
+interface GitHubInfosContextType {
   user: IUser;
   issueList: IIssue[];
-  findIssueById: (id: string) => IIssue | undefined;
   getIssueByTerm: (term: string) => Promise<void>;
 }
 
-export const RepositoryContext = createContext({} as RepositoryContextType);
+export const GitHubInfosContext = createContext({} as GitHubInfosContextType);

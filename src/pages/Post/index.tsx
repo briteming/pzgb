@@ -14,25 +14,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDay, faComment } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { NavLink, useParams } from "react-router-dom";
-import { useRepository } from "../../hooks/useRepository";
 import {
   formatDateToString,
   getDateRelativeFromNow,
 } from "../../utils/dateFormatter";
+import { IIssue } from "../../context/GitHubInfos/gitHubInfosContext";
+import { useGitHubInfos } from "../../hooks/useRepository";
 export function Post() {
   const { id } = useParams();
-  const { findIssueById } = useRepository();
+  const { issueList } = useGitHubInfos();
 
-  if (!id) {
-    return;
-  }
+  const issue = issueList.find(
+    (item) => item.id == parseInt(id as string)
+  ) as IIssue;
 
-  const issue = findIssueById(id);
-
-  if (!issue) {
-    return;
-  }
-
+  const { URL, commentsAmount, content, createdAt, owner, title } = issue;
   return (
     <ContentContainer>
       <SummaryContainer>
@@ -41,35 +37,32 @@ export function Post() {
             <img src={GoBackSVG} alt="" />
             VOLTAR
           </NavLink>
-          <NavLink to={issue.URL}>
+          <NavLink to={URL}>
             VER NO GITHUB
             <img src={NewTabLinkSVG} alt="" />
           </NavLink>
         </SummaryHeader>
-        <SummaryTitle>{issue.title}</SummaryTitle>
+        <SummaryTitle>{title}</SummaryTitle>
         <SummaryFooter>
           <div>
             <FontAwesomeIcon icon={faGithub} />
-            {issue.owner}
+            {owner}
           </div>
           <div>
             <FontAwesomeIcon icon={faCalendarDay} />
-            <time
-              title={formatDateToString(issue.createdAt)}
-              dateTime={issue.createdAt}
-            >
-              {getDateRelativeFromNow(issue.createdAt)}
+            <time title={formatDateToString(createdAt)} dateTime={createdAt}>
+              {getDateRelativeFromNow(createdAt)}
             </time>
           </div>
           <div>
             <FontAwesomeIcon icon={faComment} />
-            {issue.commentsAmount} comentários
+            {commentsAmount} comentários
           </div>
         </SummaryFooter>
       </SummaryContainer>
 
       <Content>
-        <Markdown>{issue.content}</Markdown>
+        <Markdown>{content}</Markdown>
       </Content>
     </ContentContainer>
   );

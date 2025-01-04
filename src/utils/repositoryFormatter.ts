@@ -1,4 +1,4 @@
-import { IIssue, IUser } from "../context/Repository/repositoryContext";
+import { IIssue, IUser } from "../context/GitHubInfos/gitHubInfosContext";
 
 interface IssueData {
   id: number;
@@ -29,7 +29,7 @@ export function issueFormatter(data: IssueData) {
     content: data.body ?? "",
     title: data.title,
     createdAt: data.created_at,
-    owner: data.user ?? "",
+    owner: data.user?.login ?? "",
     URL: data.html_url,
   } as IIssue;
 }
