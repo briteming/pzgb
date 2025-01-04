@@ -60,6 +60,12 @@ export const ProfileHeader = styled.header`
 
       margin-left: 0.75rem;
     }
+    border-bottom: 1px solid transparent; /* Aumenta a escala em 10% */
+    transition: border-color 0.4s ease, border-width 0.4s ease;
+
+    &:hover {
+      border-bottom: 1px solid ${({ theme }) => theme.colors["blue"]}; /* Aumenta a escala em 10% */
+    }
   }
 `;
 

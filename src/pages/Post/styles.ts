@@ -33,16 +33,25 @@ export const SummaryHeader = styled.header`
 
     text-decoration: none;
     cursor: pointer;
-    line-height: 0;
 
     img {
       width: 0.75rem;
       height: 0.75rem;
     }
 
-    span {
-      margin: 0 0.5rem;
+    border-bottom: 1px solid transparent; /* Aumenta a escala em 10% */
+    transition: border-color 0.4s ease, border-width 0.4s ease;
+
+    &:hover {
+      border-bottom: 1px solid ${({ theme }) => theme.colors["blue"]}; /* Aumenta a escala em 10% */
     }
+  }
+
+  a:first-child img {
+    margin-right: 0.5rem;
+  }
+  a:last-child img {
+    margin-left: 0.5rem;
   }
 `;
 export const SummaryTitle = styled.p`

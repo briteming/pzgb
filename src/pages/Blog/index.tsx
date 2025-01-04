@@ -26,7 +26,7 @@ export function Blog() {
         <Profile />
         <section>
           <p>
-            Publicações <span>6 publicações</span>
+            Publicações <span>{issueList.length} publicações</span>
           </p>
           <form action="" onSubmit={handleSubmit(handleSearchByString)}>
             <input

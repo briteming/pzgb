@@ -35,10 +35,10 @@ export function Post() {
         <SummaryHeader>
           <NavLink to="/">
             <img src={GoBackSVG} alt="" />
-            <span>VOLTAR</span>
+            VOLTAR
           </NavLink>
           <NavLink to={issue.URL}>
-            <span>VER NO GITHUB</span>
+            VER NO GITHUB
             <img src={NewTabLinkSVG} alt="" />
           </NavLink>
         </SummaryHeader>
