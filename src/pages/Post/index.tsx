@@ -18,12 +18,16 @@ import { useRepository } from "../../hooks/useRepository";
 import {
   formatDateToString,
   getDateRelativeFromNow,
-} from "../../utils/DateFormatter";
+} from "../../utils/dateFormatter";
 export function Post() {
   const { id } = useParams();
-  const { getIssue } = useRepository();
+  const { findIssueById } = useRepository();
 
-  const issue = getIssue(id ? id : "");
+  if (!id) {
+    return;
+  }
+
+  const issue = findIssueById(id);
 
   if (!issue) {
     return;

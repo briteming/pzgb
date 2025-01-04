@@ -5,7 +5,7 @@ import { useRepository } from "../../hooks/useRepository";
 import {
   formatDateToString,
   getDateRelativeFromNow,
-} from "../../utils/DateFormatter";
+} from "../../utils/dateFormatter";
 import { useForm } from "react-hook-form";
 
 interface SearchPostInput {

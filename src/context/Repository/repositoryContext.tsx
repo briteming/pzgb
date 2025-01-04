@@ -24,8 +24,8 @@ export interface IIssue {
 interface RepositoryContextType {
   user: IUser;
   issueList: IIssue[];
-  getIssue: (id: string) => IIssue | undefined;
-  getIssueByTerm: (term: string) => Promise<IIssue[]>;
+  findIssueById: (id: string) => IIssue | null;
+  getIssueByTerm: (term: string) => Promise<void>;
 }
 
 export const RepositoryContext = createContext({} as RepositoryContextType);

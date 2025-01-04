@@ -1,135 +1,97 @@
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { RepositoryContext, IUser, IIssue } from "./repositoryContext";
-import { Octokit } from "octokit";
+import { ApiService } from "../../services/apiService";
 
 interface RepositoryProviderProps {
   children: ReactNode;
 }
 
+const apiService = new ApiService();
 export function RepositoryProvider({ children }: RepositoryProviderProps) {
   const [user, setUser] = useState({} as IUser);
   const [issueList, setIssueList] = useState([] as IIssue[]);
 
-  const accessToken = import.meta.env.VITE_GITHUB_TOKEN;
-  const octokit = new Octokit({
-    auth: accessToken,
-  });
-
-  const getUser = useCallback(async () => {
-    const { data } = await octokit.request("GET /user", {
-      headers: {
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
-    });
-
-    const {
-      avatar_url,
-      login,
-      name,
-      bio,
-      followers,
-      company,
-      public_repos,
-      html_url,
-    } = data;
+  const getAuthUser = useCallback(async () => {
+    const data = await apiService.getUser();
 
     const user = {
-      avatarURL: avatar_url,
-      login: login,
-      name: name,
-      bio: bio,
-      followers: followers,
-      company: company,
-      publicRepos: public_repos,
-      htmlURL: html_url,
+      avatarURL: data.avatar_url,
+      login: data.login,
+      name: data.name,
+      bio: data.bio,
+      followers: data.followers,
+      company: data.company,
+      publicRepos: data.public_repos,
+      htmlURL: data.html_url,
     } as IUser;
 
-    console.log(user);
     setUser(user);
-  }, [octokit]);
+  }, []);
 
   const getIssueList = useCallback(async () => {
-    const owner = import.meta.env.VITE_GITHUB_OWNER;
-    const repo = import.meta.env.VITE_GITHUB_REPO;
+    const data = await apiService.getIssueList();
 
-    const response = await octokit.request("GET /repos/{owner}/{repo}/issues", {
-      owner,
-      repo,
-      headers: {
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
-    });
-
-    console.log(response.data);
-    setIssueList((state) =>
-      response.data.map((item) => {
-        const { comments, created_at, title, body, id, html_url, user } = item;
-
-        const newIssue = {
-          id,
-          commentsAmount: comments,
-          content: body,
-          title,
-          createdAt: created_at,
-          owner: user?.login,
-          URL: html_url,
-        } as IIssue;
-
-        const alreadyPosted = state.find((post) => post.id === newIssue.id);
-
-        if (alreadyPosted) return alreadyPosted;
-
-        return newIssue;
-      })
-    );
-  }, [octokit]);
-
-  function getIssue(issueId: string) {
-    const id = parseInt(issueId);
-
-    const foundIssue = issueList.find((item) => item.id == id);
-    if (foundIssue) return foundIssue;
-  }
-
-  async function getIssueByTerm(term: string) {
-    const owner = import.meta.env.VITE_GITHUB_OWNER;
-    const repo = import.meta.env.VITE_GITHUB_REPO;
-
-    const response = await octokit.request("GET /search/issues", {
-      q: `repo:${owner}/${repo} ${term} type:issue`,
-
-      headers: {
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
-    });
-
-    console.log(response.data);
-
-    const issues = response.data.items.map(
-      ({ id, comments, body, title, created_at, user, html_url }) =>
+    const newIssueList = data.map(
+      (item) =>
         ({
-          id,
-          commentsAmount: comments,
-          content: body,
-          title,
-          createdAt: created_at,
-          owner: user?.login,
-          URL: html_url,
+          id: item.id,
+          commentsAmount: item.comments,
+          content: item.body,
+          title: item.title,
+          createdAt: item.created_at,
+          owner: item.user?.login,
+          URL: item.html_url,
         } as IIssue)
     );
 
-    setIssueList(issues);
-    return issues;
+    setIssueList((state) =>
+      newIssueList.map((newIssue) => {
+        const alreadyPosted = state.find((issue) => issue.id === newIssue.id);
+        if (alreadyPosted) return alreadyPosted;
+        else return newIssue;
+      })
+    );
+  }, []);
+
+  function findIssueById(issueId: string) {
+    const id = parseInt(issueId);
+
+    const foundIssue = issueList.find((item) => item.id == id);
+
+    if (foundIssue) return foundIssue;
+    else return null;
   }
 
+  const getIssueByTerm = useCallback(
+    async (term: string) => {
+      const data = await apiService.getIssueByTerm(term);
+
+      const formattedIssueList = data.map(
+        (item) =>
+          ({
+            id: item.id,
+            commentsAmount: item.comments,
+            content: item.body,
+            title: item.title,
+            createdAt: item.created_at,
+            owner: item.user?.login,
+            URL: item.html_url,
+          } as IIssue)
+      );
+
+      setIssueList(formattedIssueList);
+    },
+    [apiService]
+  );
+
   useEffect(() => {
-    getUser();
+    getAuthUser();
     getIssueList();
-  }, []);
+  }, [getAuthUser, getIssueList]);
 
   return (
     <RepositoryContext.Provider
-      value={{ user, issueList, getIssue, getIssueByTerm }}
+      value={{ user, issueList, findIssueById, getIssueByTerm }}
     >
       {children}
     </RepositoryContext.Provider>
