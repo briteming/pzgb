@@ -1,6 +1,11 @@
-import { useContext } from "react";
-import { GitHubInfosContext } from "../context/GitHubInfos/gitHubInfosContext";
+import {
+  GitHubInfosContext,
+  GitHubInfosContextType,
+} from "../context/GitHubInfos/gitHubInfosContext";
+import { useContextSelector } from "use-context-selector";
 
-export function useGitHubInfos() {
-  return useContext(GitHubInfosContext);
+export function useGitHubInfos<K extends keyof GitHubInfosContextType>(
+  value: K
+): GitHubInfosContextType[K] {
+  return useContextSelector(GitHubInfosContext, (context) => context[value]);
 }

@@ -17,7 +17,7 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { useGitHubInfos } from "../../../../hooks/useGitHubInfos";
 
 export function Profile() {
-  const { user } = useGitHubInfos();
+  const user = useGitHubInfos("user");
   const {
     avatarURL,
     bio,

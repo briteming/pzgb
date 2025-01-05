@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext } from "use-context-selector";
 
 export interface IUser {
   avatarURL: string;
@@ -21,7 +21,7 @@ export interface IIssue {
   URL: string;
 }
 
-interface GitHubInfosContextType {
+export interface GitHubInfosContextType {
   user: IUser;
   issueList: IIssue[];
   getIssueByTerm: (term: string) => Promise<void>;

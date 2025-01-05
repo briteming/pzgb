@@ -13,7 +13,9 @@ interface SearchPostInput {
 }
 
 export function Blog() {
-  const { issueList, getIssueByTerm } = useGitHubInfos();
+  const issueList = useGitHubInfos("issueList");
+  const getIssueByTerm = useGitHubInfos("getIssueByTerm");
+
   const { register, handleSubmit } = useForm<SearchPostInput>();
 
   function handleSearchByString({ term }: SearchPostInput) {

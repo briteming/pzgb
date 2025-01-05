@@ -22,7 +22,7 @@ import { IIssue } from "../../context/GitHubInfos/gitHubInfosContext";
 import { useGitHubInfos } from "../../hooks/useGitHubInfos";
 export function Post() {
   const { id } = useParams();
-  const { issueList } = useGitHubInfos();
+  const issueList = useGitHubInfos("issueList");
 
   const issue = issueList.find(
     (item) => item.id == parseInt(id as string)
