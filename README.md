@@ -1,50 +1,100 @@
-# React + TypeScript + Vite
+# GithubBlog
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Completed](https://img.shields.io/badge/status-completed-brightgreen)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+![Styled Components](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)
+![React Hook Form](https://img.shields.io/badge/React%20Hook%20Form-%23EC5990.svg?style=for-the-badge&logo=reacthookform&logoColor=white)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
 
-Currently, two official plugins are available:
+![2025-01-0517-02-47-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/f0f21507-9357-4b9b-8e89-ddd14ddf2939)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📜 Description
 
-## Expanding the ESLint configuration
+This project is a blog application that fetches data from the GitHub API to display issues as blog posts. It also retrieves user profile information and provides a clean, functional interface for browsing posts. Each issue in a GitHub repository acts as a blog post, with the issue title as the post title and its body as the post content.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 💻 Technologies Used
 
-- Configure the top-level `parserOptions` property like this:
+- **React**: A JavaScript library for building user interfaces.
+- **TypeScript**: A superset of JavaScript that adds static types.
+- **Styled-Components**: For styling components with CSS-in-JS.
+- **Vite**: A fast build tool for modern web projects.
+- **React Hook Form**: Simplifies form management and validation.
+- **React Router**: Enables dynamic routing in the application.
+- **Octokit**: For interacting with the GitHub API.
+- **React Markdown**: Renders markdown content as HTML.
+- **use-context-selector**: Optimizes context selection for better performance and maintainability.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## ⚙️ Features
+
+- Display GitHub user profile with avatar, follower count, and additional details.
+- List and filter issues from a GitHub repository with summarized content.
+- View detailed content of a single issue in a dedicated post page.
+- Markdown formatting support for post content.
+
+## 🛠️ Installation
+
+### Prerequisites
+
+- **Node.js (version 16 or above)**
+- **npm (Node.js package manager)**
+- **A GitHub personal access token (GitHub Token) to authenticate API requests**
+- **Environment variables for repository configuration:**
+
+```bash
+VITE_GITHUB_TOKEN: Your GitHub token.
+VITE_GITHUB_OWNER: The GitHub username or organization.
+VITE_GITHUB_REPO: The repository name.
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+1. Clone the repository:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+git clone https://github.com/your-username/github-blog.git
 ```
+
+2. Navigate into the project directory:
+
+```bash
+cd github-blog
+```
+
+3. Install dependencies:
+
+```bash
+npm install
+```
+
+4. Create a .env file in the project root and add the required environment variables:
+   You can generate a token by following GitHub's documentation.
+
+```bash
+VITE_GITHUB_TOKEN=your_github_token
+VITE_GITHUB_OWNER=your_github_username
+VITE_GITHUB_REPO=your_repository_name
+```
+
+5. Run the development server:
+
+```bash
+npm run dev
+```
+
+6. Open your browser and visit:
+
+```bash
+http://localhost:5173/
+```
+
+## 🤝 Contributing
+
+If you'd like to contribute to this project, follow these steps:
+
+1. Fork this repository.
+2. Create a branch for your changes.
+3. Make your changes and submit a pull request.
+
+## 📄 License
+
+This project is open source and available under the MIT License.
